@@ -2,9 +2,16 @@ FORMAT: 1A
 HOST: https://api.sharix.tech/
 
 # Sharix API
-The Sharix API is for those of you interested in playback of millions of movies and series in your application. Our API is a system we provide for you and your team to programmatically retrieve and use our data and/or sources..
+The Sharix API is for those interested in playing millions of films and shows in your application. The Sharix API can be used to retrieve and use data and/or sources programmatically.
 
+# Legal Disclaimer
+The Sharix API and the distribution of the Sharix API is not illegal and does not violate DMCA laws. However, use of the Sharix API may be illegal in your region. Check your local laws and regulations regarding the playback of potentially copyrighted content. The operators will not tolerate the Sharix API being used for anything illegal in any state, region, country or planet. Please use the Sharix API at your own risk.
+
+# Status 
 The status of the Sharix API services can be checked at [**status.sharix.tech**](https://status.sharix.tech).
+
+# Issues 
+If you encounter problems using the Sharix API or the documentation is incomplete or incorrect, please file a issue on [**GitHub**](https://github.com/Boostvolt/sharix_tv_api/issues).
 
 # API URL
 The API should always be accessed over SSL.
@@ -18,21 +25,18 @@ The API uses restful verbs.
 
 | Verb | Description |
 |---|---|
-| `GET` | Select one or more items. Success returns `204` status code. |
+| `GET` | Select one or more items. Success returns `200` status code. |
 
 # Dates
-All dates will be GMT and returned in the ISO 8601 format like `2014-09-01T09:10:11.000Z`. Adjust accordingly in your app for the user's local timezone.
+All dates will be GMT and returned in the ISO 8601 format like `2020-09-01T09:10:11.000Z`. Adjust accordingly in your app for the user's local timezone.
 
-# Website Media Links
+# Media Links
 There are several ways to construct direct links to media on the Sharix API website. The website itself uses slugs so the URLs are more readable.
 
 | Type | URL |
 |---|---|
 | `movie` | `/movies/:slug` |
 | `show` | `/shows/:slug` |
-| `season` | `/shows/:slug/seasons/:num` |
-| `episode` | `/shows/:slug/seasons/:num/episodes/:num` |
-| `person` | `/people/:slug` |
 
 # Data Structures
 
@@ -59,7 +63,15 @@ language: (string,  optional)
 ## All [/movies]
 
 ### Get all movies [GET]
-Gives an array of the available movies.
+Returns an array of all available movies.
+
+  + Request (application/json)
+
+      + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
   + Response 200 (application/json; charset=utf-8)
 
       + Body
@@ -68,436 +80,165 @@ Gives an array of the available movies.
 
       + Attributes (array[string])
 
-  + Response 204 (charset=utf-8)
-
-## Sort [/movies/{page}{?sort}]
-
-### Get trending movies [GET]
-Gives an array of the trending movies.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + sort (string, `trending`) - Sort the list of content.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-### Get popular movies [GET]
-Gives an array of the popular movies.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + sort (string, `popular`) - Sort the list of content.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-### Get top rated movies [GET]
-Gives an array of the top rated movies.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + sort (string, `rating`) - Sort the list of content.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-### Get latest movies [GET]
-Gives an array of the latest movies.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + sort (string, `rating`) - Sort the list of content.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get latest movies [GET]
-Gives an array of the latest movies.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + sort (string, `rating`) - Sort the list of content.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-### Get movies by year [GET]
-Gives an array of movies by year.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + sort (string, `year`) - Sort the list of content.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-## Genres [/movies/{page}{?genre}]
-
-### Get adventure movies [GET]
-Gives an array of movies with the genre adventure.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `adventure`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-### Get action movies [GET]
-Gives an array of movies with the genre action.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `action`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get animation movies [GET]
-Gives an array of movies with the genre animation.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `animation`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get documentation movies [GET]
-Gives an array of movies with the genre documentation.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `documentation`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get drama movies [GET]
-Gives an array of movies with the genre drama.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `drama`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get family movies [GET]
-Gives an array of movies with the genre family.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `family`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get fantasy movies [GET]
-Gives an array of movies with the genre fantasy.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `fantasy`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get comedy movies [GET]
-Gives an array of movies with the genre comedy.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `comedy`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get horror movies [GET]
-Gives an array of movies with the genre horror.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `horror`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get crime movies [GET]
-Gives an array of movies with the genre crime.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `crime`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get music movies [GET]
-Gives an array of movies with the genre music.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `music`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get mystery movies [GET]
-Gives an array of movies with the genre mystery.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `mystery`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get romantic movies [GET]
-Gives an array of movies with the genre romantic.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `romantic`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get science fiction movies [GET]
-Gives an array of movies with the genre science fiction.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `science-fiction`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get thriller movies [GET]
-Gives an array of movies with the genre thriller.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `thriller`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-  
-### Get western movies [GET]
-Gives an array of movies with the genre western.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + genre (string, `western`) - Filter on a genre.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-## Search [/movies/{page}{?keywords}]
-
-### Get searched movies [GET]
-Gives an array of movies with the search keyword.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + keywords (string, `string`) - Search based on keywords.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-## Order [/movies/{page}{?order}]
-
-### Get orderd movies [GET]
-Gives an array of movies by order.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + order (number, `-1`) - Order the list of content.
-          + Values
-              + `1`
-              + `-1`
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Movie])
-
-  + Response 204 (charset=utf-8)
-
-## Details [/movie/{imdb_id}]
-
-### Get movie details [GET]
-Gives information about a single movie based on the given imdb id.
-  + Parameters
-      + imdb_id (string, `tt0468569`) - The imdb id of the movie you want details on.
-
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
-
-      + Attributes (Movie)
-
-  + Response 204 (charset=utf-8)
-
 ## Random [/random/movie]
 
 ### Get random movie [GET]
-Gives a random movie from the database.
+Returns details a random movie.
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+  
   + Response 200 (application/json; charset=utf-8)
 
       + Body
 
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","torrents":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
       + Attributes (Movie)
 
-  + Response 204 (charset=utf-8)
+## Sort [/movies/{page}{?sort}]
+Movies can be sorted according to the following criteria:
+- Trending
+- Popularity
+- Last added
+- Top rated
+- Year of publication
+
+### Get movies by sort criteria [GET]
+Returns an array of movies that correspond to the selected sort criteria.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + sort (string, `trending`) - Sort the list of content.
+        + Values
+              + `trending`
+              + `popular`
+              + `released`
+              + `rating`
+              + `year`
+
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Movie])
+
+## Genres [/movies/{page}{?genre}]
+Movies can be requested according to the following genres:
+- Adventure
+- Action
+- Animation
+- Documentation
+- Drama
+- Family
+- Fantasy
+- Comedy
+- Horror
+- Crime
+- Music
+- Mystery
+- Romantic
+- Science Fiction
+- Thriller
+- Western
 
 
-# Group Show
+### Get movies by genre [GET]
+Returns an array of movies that correspond to the selected genre.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + genre (string, `adventure`) - Filter on a genre.
+         + Values
+              + `adventure`
+              + `action`
+              + `animation`
+              + `documentation`
+              + `drama`
+              + `family`
+              + `fantasy`
+              + `comedy`
+              + `horror`
+              + `crime`
+              + `music`
+              + `mystery`
+              + `romantic`
+              + `science-fiction`
+              + `trhiller`
+              + `western`
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Movie])
+
+## Search [/movies/{page}{?keywords}]
+Movies can be requested according to specific search keywords.
+### Get movies by keyword [GET]
+Returns an array of movies that correspond to the search keyword.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + keywords (string, `Star Wars`) - Search based on keywords.
+
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Movie])
+
+## Details [/movie/{imdb_id}]
+Details about a movie can be requested using the tmdb_id.
+### Get movie details [GET]
+Returns details about a single movie based on the given imdb id.
+  + Parameters
+      + imdb_id (string, `tt0468569`) - The imdb id of the movie you want details on.
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+  
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+
+      + Attributes (Movie)
+
+# Group Shows
 
 # Group Subtitles
 
