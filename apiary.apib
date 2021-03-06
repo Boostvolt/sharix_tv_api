@@ -4,9 +4,7 @@ HOST: https://api.sharix.tech/
 # Sharix API
 The Sharix API is for those of you interested in playback of millions of movies and series in your application. Our API is a system we provide for you and your team to programmatically retrieve and use our data and/or sources..
 
-The status of Sharix API services can be viewed at [**status.sharix.tech**](https://status.sharix.tech).
-
-**Documentation is still in progress.**
+The status of the Sharix API services can be checked at [**status.sharix.tech**](https://status.sharix.tech).
 
 # API URL
 The API should always be accessed over SSL.
@@ -21,6 +19,20 @@ The API uses restful verbs.
 | Verb | Description |
 |---|---|
 | `GET` | Select one or more items. Success returns `204` status code. |
+
+# Dates
+All dates will be GMT and returned in the ISO 8601 format like `2014-09-01T09:10:11.000Z`. Adjust accordingly in your app for the user's local timezone.
+
+# Website Media Links
+There are several ways to construct direct links to media on the Sharix API website. The website itself uses slugs so the URLs are more readable.
+
+| Type | URL |
+|---|---|
+| `movie` | `/movies/:slug` |
+| `show` | `/shows/:slug` |
+| `season` | `/shows/:slug/seasons/:num` |
+| `episode` | `/shows/:slug/seasons/:num/episodes/:num` |
+| `person` | `/people/:slug` |
 
 # Data Structures
 
