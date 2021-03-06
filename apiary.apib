@@ -2,13 +2,13 @@ FORMAT: 1A
 HOST: https://api.sharix.tech/
 
 # Sharix API
-The Sharix API is for those interested in playing millions of movies and shows in your application. The Sharix API can be used to retrieve and use data and/or sources programmatically.
-
-# Legal Disclaimer
-The Sharix API and the distribution of the Sharix API is not illegal and does not violate DMCA laws. However, use of the Sharix API may be illegal in your region. Check your local laws and regulations regarding the playback of potentially copyrighted content. The operators will not tolerate the Sharix API being used for anything illegal in any state, region, country or planet. Please use the Sharix API at your own risk.
+At Sharix we collect all kinds of information and sources of movies and shows so that they can be easily watched. Part of the fun with such data is making it available for anyone to process and use on their own website or app. The Sharix API was developed for exactly this purpose. It's very simple to use, you basically call a URL and get some JSON back.
 
 # Sharix TV App
 The Sharix API has been fully implemented in the [**Sharix TV App**](https://sharix.tech) which runs across all devices. These include iOS, iPadOS, tvOS, macOS and Airplay.
+
+# Legal Disclaimer
+The Sharix API and the distribution of the Sharix API is not illegal and does not violate DMCA laws. However, use of the Sharix API may be illegal in your region. Check your local laws and regulations regarding the playback of potentially copyrighted content. The operators will not tolerate the Sharix API being used for anything illegal in any state, region, country or planet. Please use the Sharix API at your own risk.
 
 # Status 
 The status of the Sharix API services can be checked at [**status.sharix.tech**](https://status.sharix.tech).
@@ -30,6 +30,35 @@ The API uses restful verbs.
 |---|---|
 | `GET` | Select one or more items. Success returns `200` status code. |
 
+# Status Codes
+The Sharix API will respond with one of the following HTTP status codes.
+
+| Code | Description |
+|---|---|
+| `200` | Success
+| `400` | Bad Request - *request couldn't be parsed*
+| `401` | Unauthorized - *OAuth must be provided*
+| `404` | Not Found - *method exists, but no record found*
+| `412` | Precondition Failed - *use application/json content type*
+| `422` | Unprocessable Entity - *validation errors*
+| `500` | Server Error - *please open a GitHub issue*
+| `503` | Service Unavailable - *server overloaded (try again in 30s)*
+| `504` | Service Unavailable - *server overloaded (try again in 30s)*
+| `520` | Service Unavailable - *Cloudflare error*
+| `521` | Service Unavailable - *Cloudflare error*
+| `522` | Service Unavailable - *Cloudflare error*
+
+# Required Headers
+You'll need to send some headers when making API calls to identify your application, set the version and set the content type to JSON.
+
+| Header | Value |
+|---|---|
+| `Content-type` <span style="color:red;">*</a> | `application/json` |
+| `sharix-api-authorization` | `[access_token]` |
+| `sharix-api-version` <span style="color:red;">*</a> | `1` | API version to use.
+
+Some `GET` calls require OAuth and others will return user specific data if OAuth is sent. Methods that **require** or have **optional** OAuth will be indicated.
+
 # Dates
 All dates will be GMT and returned in the ISO 8601 format like `2020-09-01T09:10:11.000Z`. Adjust accordingly in your app for the user's local timezone.
 
@@ -40,6 +69,16 @@ There are several ways to construct direct links to media on the Sharix API webs
 |---|---|
 | `movie` | `/movies/:slug` |
 | `show` | `/shows/:slug` |
+
+# Libraries
+This libraries might help give your project a head start, but Sharix can't provide direct support for any of these libraries.
+
+| Language | Repository |
+|---|---|---|
+| `Java` | https://github.com/Boostvolt |
+| `Node.js` | https://github.com/Boostvolt |
+| `React Native` | https://github.com/Boostvolt |
+| `Swift` | https://github.com/Boostvolt |
 
 # Data Structures
 
@@ -60,6 +99,29 @@ images: (Images, required)
 rating: (Rating, required)
 type: (string, required)
 language: (string,  optional)
+
+## Show
+_id: (string, required)
+imdb_id: (string, required)
+title: (string, required)
+year: (number, required)
+slug: (string, required)
+synopsis: (string, optional)
+runtime: (number, optional)
+rating: (Rating, required)
+images: (Images, required)
+genres: (array[string], required)
+type: (string, required)
+tvdb_id: (string, required)
+country: (string, optional)
+network: (string, optional)
+air_day: (string, optional)
+air_time: (string, optional)
+status: (string, optional)
+num_seasons: (number, required)
+last_updated: (number, optional)
+latest_episode: (number, optional)
+episodes: (array[Episode], optional)
 
 # Group Movies
 
@@ -242,6 +304,184 @@ Returns details about a single movie based on the given IMDb ID.
       + Attributes (Movie)
 
 # Group Shows
+
+## All [/shows]
+
+### Get all shows [GET]
+Returns an array of all available shows.
+
+  + Request (application/json)
+
+      + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            ["shows/1","shows/2","shows/3","shows/4","shows/5","shows/6","shows/7","shows/8","shows/9","shows/10"]
+
+      + Attributes (array[string])
+
+## Random [/random/shows]
+
+### Get random shows [GET]
+Returns details a random shows.
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+  
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+
+      + Attributes (Show)
+
+## Sort [/shows/{page}{?sort}]
+Shows can be sorted according to the following criteria:
+- Trending
+- Popularity
+- Last added
+- Top rated
+- Year of publication
+
+### Get shows by sort criteria [GET]
+Returns an array of shows that correspond to the selected sort criteria.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + sort (string, `trending`) - Sort the list of content.
+        + Values
+              + `trending`
+              + `popular`
+              + `released`
+              + `rating`
+              + `year`
+
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])
+
+## Genres [/shows/{page}{?genre}]
+Shows can be requested according to the following genres:
+- Adventure
+- Action
+- Animation
+- Documentation
+- Drama
+- Family
+- Fantasy
+- Comedy
+- Horror
+- Crime
+- Music
+- Mystery
+- Romantic
+- Science Fiction
+- Thriller
+- Western
+
+
+### Get shows by genre [GET]
+Returns an array of shows that correspond to the selected genre.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + genre (string, `adventure`) - Filter on a genre.
+         + Values
+              + `adventure`
+              + `action`
+              + `animation`
+              + `documentation`
+              + `drama`
+              + `family`
+              + `fantasy`
+              + `comedy`
+              + `horror`
+              + `crime`
+              + `music`
+              + `mystery`
+              + `romantic`
+              + `science-fiction`
+              + `trhiller`
+              + `western`
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])
+
+## Search [/shows/{page}{?keywords}]
+Shows can be requested according to specific search keywords.
+### Get shows by keyword [GET]
+Returns an array of shows that correspond to the search keyword.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + keywords (string, `wandavision`) - Search based on keywords.
+
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])
+
+## Details [/show/{imdb_id}]
+Details about a show can be requested using the IMDb ID.
+### Get show details [GET]
+Returns details about a single show based on the given IMDb ID.
+  + Parameters
+      + imdb_id (string, `tt1520211`) - The IMDb ID of the movie you want details on.
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+  
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+
+      + Attributes (Show)
 
 # Group Subtitles
 
