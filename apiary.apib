@@ -4,6 +4,8 @@ HOST: https://api.sharix.tech/
 # Sharix API
 At Sharix we collect all kinds of information and sources of movies and shows so that they can be easily watched. Part of the fun with such data is making it available for anyone to process and use on their own website or app. The Sharix API was developed for exactly this purpose. It's very simple to use, you basically call a URL and get some JSON back.
 
+Be sure to check out the [**Required Headers**](#introduction/required-headers) sections to learn more about what needs to be sent with each API call. If you don't include an `access_token` the Sharix API is limited and only a small number of movies and shows will be returned.
+
 # Sharix TV App
 ![Sharix API](https://github.com/Boostvolt/sharix_tv_api/blob/main/Sharix%20API.png?raw=true)
 The Sharix API has been fully implemented in the [**Sharix TV App**](https://sharix.tech) which runs across all devices. These include iOS, iPadOS, tvOS, macOS and Airplay.
@@ -16,6 +18,9 @@ The status of the Sharix API services can be checked at [**status.sharix.tech**]
 
 # Issues 
 If you encounter problems using the Sharix API or the documentation is incomplete or incorrect, please file a issue on [**GitHub**](https://github.com/Boostvolt/sharix_tv_api/issues).
+
+# Authorization
+To be able to use the Sharix API without limitations., you will need to [**create a new API OAuth**](https://api.sharix.tech).
 
 # API URL
 The API should always be accessed over SSL.
@@ -166,13 +171,51 @@ Returns details a random movie.
 
       + Attributes (Movie)
 
+## Languages [/movies/{page}{?locale}]
+Movies can be requested according to the following languages:
+- English `en`
+- Spanish `es`
+- French `fr`
+- German `de`
+- Dutch `nl`
+- Russian `ru`
+
+
+### Get movies by language [GET]
+Returns an array of movies that correspond to the selected language.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + locale (string, `en`) - Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Movie])
+
 ## Sort [/movies/{page}{?sort}]
 Movies can be sorted according to the following criteria:
-- Trending
-- Popularity
-- Last added
-- Top rated
-- Year of publication
+- Trending `trending`
+- Popularity `popular`
+- Last added `released`
+- Top rated `rating`
+- Year of publication `year`
 
 ### Get movies by sort criteria [GET]
 Returns an array of movies that correspond to the selected sort criteria.
@@ -203,22 +246,22 @@ Returns an array of movies that correspond to the selected sort criteria.
 
 ## Genres [/movies/{page}{?genre}]
 Movies can be requested according to the following genres:
-- Adventure
-- Action
-- Animation
-- Documentation
-- Drama
-- Family
-- Fantasy
-- Comedy
-- Horror
-- Crime
-- Music
-- Mystery
-- Romantic
-- Science Fiction
-- Thriller
-- Western
+- Adventure `adventure`
+- Action `action`
+- Animation `animation`
+- Documentation `documentation`
+- Drama `drama`
+- Family `family`
+- Fantasy `fantasy`
+- Comedy `comedy`
+- Horror `horror`
+- Crime `crime`
+- Music `music`
+- Mystery `mystery`
+- Romantic `romantic`
+- Science Fiction `science-fiction`
+- Thriller `thriller`
+- Western `western`
 
 
 ### Get movies by genre [GET]
@@ -346,13 +389,51 @@ Returns details a random shows.
 
       + Attributes (Show)
 
+## Languages [/shows/{page}{?locale}]
+Shows can be requested according to the following languages:
+- English `en`
+- Spanish `es`
+- French `fr`
+- German `de`
+- Dutch `nl`
+- Russian `ru`
+
+
+### Get shows by language [GET]
+Returns an array of shows that correspond to the selected language.
+  + Parameters
+      + page (number, `1`) - The page of the content you want.
+      + locale (string, `en`) - Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])
+
 ## Sort [/shows/{page}{?sort}]
 Shows can be sorted according to the following criteria:
-- Trending
-- Popularity
-- Last added
-- Top rated
-- Year of publication
+- Trending `trending`
+- Popularity `popular`
+- Last added `released`
+- Top rated `rating`
+- Year of publication `year`
 
 ### Get shows by sort criteria [GET]
 Returns an array of shows that correspond to the selected sort criteria.
@@ -383,22 +464,23 @@ Returns an array of shows that correspond to the selected sort criteria.
 
 ## Genres [/shows/{page}{?genre}]
 Shows can be requested according to the following genres:
-- Adventure
-- Action
-- Animation
-- Documentation
-- Drama
-- Family
-- Fantasy
-- Comedy
-- Horror
-- Crime
-- Music
-- Mystery
-- Romantic
-- Science Fiction
-- Thriller
-- Western
+- Adventure `adventure`
+- Action `action`
+- Animation `animation`
+- Documentation `documentation`
+- Drama `drama`
+- Family `family`
+- Fantasy `fantasy`
+- Comedy `comedy`
+- Horror `horror`
+- Crime `crime`
+- Music `music`
+- Mystery `mystery`
+- Romantic `romantic`
+- Science Fiction `science-fiction`
+- Thriller `thriller`
+- Western `western`
+
 
 
 ### Get shows by genre [GET]
