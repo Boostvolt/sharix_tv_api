@@ -5,7 +5,7 @@ HOST: https://api.sharix.tech/
 ![Sharix API](https://github.com/Boostvolt/sharix_tv_api/blob/main/SharixAPI.png?raw=true)
 At Sharix we collect all kinds of information and sources of movies and shows so that they can be easily watched. Part of the fun with such data is making it available for anyone to process and use on their own website or app. The Sharix API was developed for exactly this purpose. It's very simple to use, you basically call a URL and get some JSON back.
 
-Be sure to check out the [**Required Headers**](#introduction/required-headers) sections to learn more about what needs to be sent with each API call. If you don't include an `access_token` the Sharix API is limited and only a small number of movies and shows will be returned.
+Be sure to check out the [**Required Headers**](#introduction/required-headers) sections to learn more about what needs to be sent with each API call. If you don't include an `access_token` the Sharix API is limited and only a small integer of movies and shows will be returned.
 
 # Sharix TV App
 ![Sharix TV App](https://github.com/Boostvolt/sharix_tv_api/blob/main/SharixTV.png?raw=true)
@@ -95,11 +95,11 @@ This libraries might help give your project a head start, but Sharix can't provi
 _id: (string, required)
 imdb_id: (string, required)
 title: (string, required)
-year: (number, required)
+year: (integer, required)
 slug: (string, optional)
 synopsis: (string, required)
-runtime: (number, required)
-released: (number,  required)
+runtime: (integer, required)
+released: (integer,  required)
 trailer: (string,  required)
 certification: (string,  required)
 clusters: (MovieLanguages, required)
@@ -113,10 +113,10 @@ language: (string,  optional)
 _id: (string, required)
 imdb_id: (string, required)
 title: (string, required)
-year: (number, required)
+year: (integer, required)
 slug: (string, required)
 synopsis: (string, optional)
-runtime: (number, optional)
+runtime: (integer, optional)
 rating: (Rating, required)
 images: (Images, required)
 genres: (array[string], required)
@@ -127,9 +127,9 @@ network: (string, optional)
 air_day: (string, optional)
 air_time: (string, optional)
 status: (string, optional)
-num_seasons: (number, required)
-last_updated: (number, optional)
-latest_episode: (number, optional)
+num_seasons: (integer, required)
+last_updated: (integer, optional)
+latest_episode: (integer, optional)
 episodes: (array[Episode], optional)
 
 # Group Movies
@@ -170,47 +170,31 @@ Returns details a random movie.
 
       + Body
 
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
       + Attributes (Movie)
-
-## Languages [/movies/{page}{?locale}]
-Movies can be requested according to the following languages:
-- English `en`
-- Spanish `es`
-- French `fr`
-- German `de`
-- Dutch `nl`
-- Russian `ru`
-
-
-### Get movies by language [GET]
-Returns an array of movies that correspond to the selected language.
+      
+## Page [/random/{page}]
+Movies can be requested from a specific page.
+### Get movies by page [GET]
+Returns movies of the selected page.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + locale (string, `en`) - Filter on a language.
-         + Values
-              + `en`
-              + `es`
-              + `fr`
-              + `de`
-              + `nl`
-              + `ru`
-  
+      + page (integer, `1`) - The page of the content you want.
+      
   + Request (application/json)
 
     + Headers
 
             sharix-api-authorization:[access_token]
             sharix-api-version: 1
-            
+  
   + Response 200 (application/json; charset=utf-8)
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
-      + Attributes (array[Movie])
+      + Attributes (Movie)
 
 ## Sort [/movies/{page}{?sort}]
 Movies can be sorted according to the following criteria:
@@ -223,7 +207,7 @@ Movies can be sorted according to the following criteria:
 ### Get movies by sort criteria [GET]
 Returns an array of movies that correspond to the selected sort criteria.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + sort (string, `trending`) - Sort the list of content.
         + Values
               + `trending`
@@ -243,9 +227,38 @@ Returns an array of movies that correspond to the selected sort criteria.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Movie])
+
+## Order [/movies/{page}{?order}]
+Movies can be orderd according to the following options:
+- Upwards `1`
+- Downwards `-1`
+
+### Get movies by order [GET]
+Returns an orderd list of movies that correspond to the order.
+  + Parameters
+      + page (integer, `1`) - The page of the content you want.
+      + order (integer, `-1`) - Order the list of the content.
+         + Values
+              + `1`
+              + `-1`
+
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Movie])     
 
 ## Genres [/movies/{page}{?genre}]
 Movies can be requested according to the following genres:
@@ -270,7 +283,7 @@ Movies can be requested according to the following genres:
 ### Get movies by genre [GET]
 Returns an array of movies that correspond to the selected genre.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + genre (string, `adventure`) - Filter on a genre.
          + Values
               + `adventure`
@@ -301,7 +314,7 @@ Returns an array of movies that correspond to the selected genre.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Movie])
 
@@ -310,7 +323,7 @@ Movies can be requested according to specific search keywords.
 ### Get movies by keyword [GET]
 Returns an array of movies that correspond to the search keyword.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + keywords (string, `Star Wars`) - Search based on keywords.
 
   + Request (application/json)
@@ -324,42 +337,60 @@ Returns an array of movies that correspond to the search keyword.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Movie])
 
-## Order [/movies/{page}{?order}]
-Movies can be orderd according to a specific order.
-### Get movies by order [GET]
-Returns an orderd list of movies that correspond to the order.
-  + Parameters
-      + page (number, `1`) - The page of the content you want.
-      + order (string, `-1`) - Order the list of the content.
-         + Values
-              + `1`
-              + `-1`
+## Languages [/movies/{page}{?locale}]
+Movies can be requested according to the following languages:
+- English `en`
+- Spanish `es`
+- French `fr`
+- German `de`
+- Dutch `nl`
+- Russian `ru`
 
+### Get movies by language [GET]
+Returns an array of movies that correspond to the selected language.
+  + Parameters
+      + page (integer, `1`) - The page of the content you want.
+      + locale (string, `en`) - Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+  
   + Request (application/json)
 
     + Headers
 
             sharix-api-authorization:[access_token]
             sharix-api-version: 1
-
+            
   + Response 200 (application/json; charset=utf-8)
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
-      + Attributes (array[Movie])     
+      + Attributes (array[Movie])
       
 ## Multiple parameters [/movies/{page}{?sort,order,genre,keywords,locale}]
-Movies can be requested according to multiple parameters.
+Movies can be requested according to multiple parameters. The following parameters are available:
+- Page `{page}`
+- Sort `{sort}`
+- Order `{order}`
+- Genre `{genre}`
+- Search `{keywords}`
+- Language `{locale}`
+
 ### Get movies by multiple parameters [GET]
 Returns an array of movies that correspond to the parameters.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + sort (string, `trending`) - Sort the list of content.
         + Values
               + `trending`
@@ -367,7 +398,7 @@ Returns an array of movies that correspond to the parameters.
               + `released`
               + `rating`
               + `year`
-      + order (string, `-1`) - Order the list of the content.
+      + order (integer, `-1`) - Order the list of the content.
          + Values
               + `1`
               + `-1`
@@ -410,7 +441,7 @@ Returns an array of movies that correspond to the parameters.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Movie])      
 
@@ -432,7 +463,7 @@ Returns details about a single movie based on the given IMDb ID.
 
       + Body
 
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
       + Attributes (Movie)
 
@@ -474,7 +505,7 @@ Returns details a random shows.
 
       + Body
 
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
       + Attributes (Show)
 
@@ -491,7 +522,7 @@ Shows can be requested according to the following languages:
 ### Get shows by language [GET]
 Returns an array of shows that correspond to the selected language.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + locale (string, `en`) - Filter on a language.
          + Values
               + `en`
@@ -512,7 +543,7 @@ Returns an array of shows that correspond to the selected language.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Show])
 
@@ -527,7 +558,7 @@ Shows can be sorted according to the following criteria:
 ### Get shows by sort criteria [GET]
 Returns an array of shows that correspond to the selected sort criteria.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + sort (string, `trending`) - Sort the list of content.
         + Values
               + `trending`
@@ -547,7 +578,7 @@ Returns an array of shows that correspond to the selected sort criteria.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Show])
 
@@ -575,7 +606,7 @@ Shows can be requested according to the following genres:
 ### Get shows by genre [GET]
 Returns an array of shows that correspond to the selected genre.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + genre (string, `adventure`) - Filter on a genre.
          + Values
               + `adventure`
@@ -606,7 +637,7 @@ Returns an array of shows that correspond to the selected genre.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Show])
 
@@ -615,7 +646,7 @@ Shows can be requested according to specific search keywords.
 ### Get shows by keyword [GET]
 Returns an array of shows that correspond to the search keyword.
   + Parameters
-      + page (number, `1`) - The page of the content you want.
+      + page (integer, `1`) - The page of the content you want.
       + keywords (string, `wandavision`) - Search based on keywords.
 
   + Request (application/json)
@@ -629,7 +660,7 @@ Returns an array of shows that correspond to the search keyword.
 
       + Body
 
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
 
       + Attributes (array[Show])
 
@@ -651,7 +682,7 @@ Returns details about a single show based on the given IMDb ID.
 
       + Body
 
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"720p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
+            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
       + Attributes (Show)
 
