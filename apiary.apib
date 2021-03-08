@@ -153,28 +153,8 @@ Returns an array of all available movies.
             ["movies/1","movies/2","movies/3","movies/4","movies/5","movies/6","movies/7","movies/8","movies/9","movies/10"]
 
       + Attributes (array[string])
-
-## Random [/random/movie]
-
-### Get random movie [GET]
-Returns details a random movie.
-  
-  + Request (application/json)
-
-    + Headers
-
-            sharix-api-authorization:[access_token]
-            sharix-api-version: 1
-  
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
-
-      + Attributes (Movie)
       
-## Page [/random/{page}]
+## Page [/movies/{page}]
 Movies can be requested from a specific page.
 ### Get movies by page [GET]
 Returns movies of the selected page.
@@ -469,31 +449,13 @@ Returns details about a single movie based on the given IMDb ID.
 
 # Group Shows
 
-## All [/shows]
-
-### Get all shows [GET]
-Returns an array of all available shows.
-
-  + Request (application/json)
-
-      + Headers
-
-            sharix-api-authorization:[access_token]
-            sharix-api-version: 1
-            
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            ["shows/1","shows/2","shows/3","shows/4","shows/5","shows/6","shows/7","shows/8","shows/9","shows/10"]
-
-      + Attributes (array[string])
-
-## Random [/random/shows]
-
-### Get random shows [GET]
-Returns details a random shows.
-  
+## Page [/shows/{page}]
+Shows can be requested from a specific page.
+### Get shows by page [GET]
+Returns shows of the selected page.
+  + Parameters
+      + page (integer, `1`) - The page of the content you want.
+      
   + Request (application/json)
 
     + Headers
@@ -508,44 +470,6 @@ Returns details a random shows.
             {"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}
 
       + Attributes (Show)
-
-## Languages [/shows/{page}{?locale}]
-Shows can be requested according to the following languages:
-- English `en`
-- Spanish `es`
-- French `fr`
-- German `de`
-- Dutch `nl`
-- Russian `ru`
-
-
-### Get shows by language [GET]
-Returns an array of shows that correspond to the selected language.
-  + Parameters
-      + page (integer, `1`) - The page of the content you want.
-      + locale (string, `en`) - Filter on a language.
-         + Values
-              + `en`
-              + `es`
-              + `fr`
-              + `de`
-              + `nl`
-              + `ru`
-  
-  + Request (application/json)
-
-    + Headers
-
-            sharix-api-authorization:[access_token]
-            sharix-api-version: 1
-            
-  + Response 200 (application/json; charset=utf-8)
-
-      + Body
-
-            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
-
-      + Attributes (array[Show])
 
 ## Sort [/shows/{page}{?sort}]
 Shows can be sorted according to the following criteria:
@@ -582,6 +506,35 @@ Returns an array of shows that correspond to the selected sort criteria.
 
       + Attributes (array[Show])
 
+## Order [/shows/{page}{?order}]
+Shows can be orderd according to the following options:
+- Upwards `1`
+- Downwards `-1`
+
+### Get shows by order [GET]
+Returns an orderd list of shows that correspond to the order.
+  + Parameters
+      + page (integer, `1`) - The page of the content you want.
+      + order (integer, `-1`) - Order the list of the content.
+         + Values
+              + `1`
+              + `-1`
+
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])     
+
 ## Genres [/shows/{page}{?genre}]
 Shows can be requested according to the following genres:
 - Adventure `adventure`
@@ -600,7 +553,6 @@ Shows can be requested according to the following genres:
 - Science Fiction `science-fiction`
 - Thriller `thriller`
 - Western `western`
-
 
 
 ### Get shows by genre [GET]
@@ -647,7 +599,7 @@ Shows can be requested according to specific search keywords.
 Returns an array of shows that correspond to the search keyword.
   + Parameters
       + page (integer, `1`) - The page of the content you want.
-      + keywords (string, `wandavision`) - Search based on keywords.
+      + keywords (string, `WandaVision`) - Search based on keywords.
 
   + Request (application/json)
 
@@ -664,12 +616,116 @@ Returns an array of shows that correspond to the search keyword.
 
       + Attributes (array[Show])
 
+## Languages [/shows/{page}{?locale}]
+Shows can be requested according to the following languages:
+- English `en`
+- Spanish `es`
+- French `fr`
+- German `de`
+- Dutch `nl`
+- Russian `ru`
+
+### Get shows by language [GET]
+Returns an array of shows that correspond to the selected language.
+  + Parameters
+      + page (integer, `1`) - The page of the content you want.
+      + locale (string, `en`) - Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+  
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+            
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])
+      
+## Multiple parameters [/shows/{page}{?sort,order,genre,keywords,locale}]
+Shows can be requested according to multiple parameters. The following parameters are available:
+- Page `{page}`
+- Sort `{sort}`
+- Order `{order}`
+- Genre `{genre}`
+- Search `{keywords}`
+- Language `{locale}`
+
+### Get shows by multiple parameters [GET]
+Returns an array of shows that correspond to the parameters.
+  + Parameters
+      + page (integer, `1`) - The page of the content you want.
+      + sort (string, `trending`) - Sort the list of content.
+        + Values
+              + `trending`
+              + `popular`
+              + `released`
+              + `rating`
+              + `year`
+      + order (integer, `-1`) - Order the list of the content.
+         + Values
+              + `1`
+              + `-1`
+      + genre (string, `adventure`) - Filter on a genre.
+         + Values
+              + `adventure`
+              + `action`
+              + `animation`
+              + `documentation`
+              + `drama`
+              + `family`
+              + `fantasy`
+              + `comedy`
+              + `horror`
+              + `crime`
+              + `music`
+              + `mystery`
+              + `romantic`
+              + `science-fiction`
+              + `trhiller`
+              + `western`
+      + keywords (string, `Star Wars`) - Search based on keywords.
+      + locale (string, `en`) - Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+      
+  + Request (application/json)
+
+    + Headers
+
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+
+  + Response 200 (application/json; charset=utf-8)
+
+      + Body
+
+            [{"_id":"UniqueString1","imdb_id":"UniqueString1","title":"String","year":0,"slug":"String","synopsis":"String","runtime":0,"rating":{"percentage":0,"watching":0,"votes":0},"images":{"banner":"String","fanart":"String","poster":"String"},"genres":["String"],"type":"String","language":"String","released":0,"trailer":"String","certification":"String","clusters":{"en":{"2160p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"},"1080p":{"provider":"String","filesize":"String","size":0,"peer":0,"seed":0,"url":"String"}}}}]
+
+      + Attributes (array[Show])      
+
 ## Details [/show/{imdb_id}]
 Details about a show can be requested using the IMDb ID.
-### Get show details [GET]
+### Get movie details [GET]
 Returns details about a single show based on the given IMDb ID.
   + Parameters
-      + imdb_id (string, `tt1520211`) - The IMDb ID of the movie you want details on.
+      + imdb_id (string, `tt9140560`) - The IMDb ID of the movie you want details on.
   
   + Request (application/json)
 
