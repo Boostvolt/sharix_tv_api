@@ -153,7 +153,28 @@ Returns an array of all available movies.
             ["movies/1","movies/2","movies/3","movies/4","movies/5","movies/6","movies/7","movies/8","movies/9","movies/10"]
 
       + Attributes (array[string])
-      
+     
+## Random [/random/movie]
+ 
+### Get a random movie [GET]
+Returns details a random movie.
+   
+  + Request (application/json)
+  
+    + Headers
+    
+            sharix-api-authorization:[access_token]
+            sharix-api-version: 1
+   
+  + Response 200 (application/json; charset=utf-8)
+    
+       + Body
+
+            ["movies/1","movies/2","movies/3","movies/4","movies/5","movies/6","movies/7","movies/8","movies/9","movies/10"]
+
+      + Attributes (array[string])
+
+
 ## Page [/movies/{page}]
 Movies can be requested from a specific page.
 ### Get movies by page [GET]
