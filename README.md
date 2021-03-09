@@ -16,7 +16,7 @@ This libraries might help give your project a head start, but Sharix can't provi
 | Java         | https://github.com/Boostvolt                   |
 | Node.js      | https://github.com/Boostvolt                   |
 | React Native | https://github.com/Boostvolt                   |
-| Swift        | https://github.comBoostvolt                    |
+| Swift        | https://github.com/Boostvolt                   |
 
 ## Licence
 Copyright © 2021 Boostvolt (Jan). All rights reserved.
