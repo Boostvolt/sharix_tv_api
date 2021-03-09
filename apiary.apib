@@ -180,10 +180,11 @@ Returns movies of the selected page.
 Movies can be sorted according to the following criteria:
 - Trending `trending`
 - Popularity `popular`
-- Last added `released`
+- Last added `last added`
 - Top rated `rating`
 - Year of publication `year`
 - Name Z-A `name`
+- Last updated `updated`
 
 ### Get movies by sort criteria [GET]
 Returns an array of movies that correspond to the selected sort criteria.
@@ -197,6 +198,7 @@ Returns an array of movies that correspond to the selected sort criteria.
               + `rating`
               + `year`
               + `name`
+              + `updated`
 
   + Request (application/json)
 
@@ -481,6 +483,7 @@ Shows can be sorted according to the following criteria:
 - Top rated `rating`
 - Year of publication `year`
 - Name `name`
+- Last updated `updated`
 
 ### Get shows by sort criteria [GET]
 Returns an array of shows that correspond to the selected sort criteria.
@@ -494,6 +497,7 @@ Returns an array of shows that correspond to the selected sort criteria.
               + `rating`
               + `year`
               + `name`
+              + `updated`
 
   + Request (application/json)
 
