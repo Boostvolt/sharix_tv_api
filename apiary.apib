@@ -198,11 +198,12 @@ Returns movies of the selected page.
 ## Sort [/movies/{page}{?sort}]
 Movies can be sorted according to the following criteria:
 - Trending `trending`
+- Popular `popular`
 - Released `released`
 - Last added `last added`
 - Top rated `rating`
 - Year of publication `year`
-- Name Z-A `name`
+- Name A-Z `name`
 
 ### Get movies by sort criteria [GET]
 Returns an array of movies that correspond to the selected sort criteria.
@@ -211,6 +212,7 @@ Returns an array of movies that correspond to the selected sort criteria.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
+              + `popular`
               + `released`
               + `last added`
               + `rating`
@@ -403,6 +405,7 @@ Returns an array of movies that correspond to the parameters.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
+              + `popular`
               + `released`
               + `last added`
               + `rating`
@@ -549,6 +552,7 @@ Returns shows of the selected page.
 ## Sort [/shows/{page}{?sort}]
 Shows can be sorted according to the following criteria:
 - Trending `trending`
+- Popular `popular`
 - Released `released`
 - Last added `last added`
 - Top rated `rating`
@@ -563,6 +567,7 @@ Returns an array of shows that correspond to the selected sort criteria.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
+              + `popular`
               + `released`
               + `last added`
               + `rating`
@@ -756,6 +761,7 @@ Returns an array of shows that correspond to the parameters.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
+              + `popular`
               + `released`
               + `last added`
               + `rating`
