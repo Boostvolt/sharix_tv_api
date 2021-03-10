@@ -5,25 +5,25 @@ HOST: https://api.sharix.tech/
 ![Sharix API](https://github.com/Boostvolt/sharix_tv_api/blob/main/SharixAPI.png?raw=true)
 At Sharix we collect all kinds of information and sources of movies and shows so that they can be easily watched. Part of the fun with such data is making it available for anyone to process and use on their own website or app. The Sharix API was developed for exactly this purpose. It's very simple to use, you basically call a URL and get some JSON back.
 
-Be sure to check out the [**Required Headers**](#introduction/required-headers) sections to learn more about what needs to be sent with each API call. If you don't include an `access_token` the Sharix API is limited and only a small number of movies and shows will be returned.
+Be sure to check out the [**Required Headers**](#introduction/required-headers) and the [**Authorization**](#introduction/authorization) sections to learn more about what needs to be sent with each API call. If you don't include an `access_token` the Sharix API is limited and only a small number of movies and shows will be returned.
 
 # Sharix TV App
 ![Sharix TV App](https://github.com/Boostvolt/sharix_tv_api/blob/main/SharixTV.png?raw=true)
-The Sharix API has been fully implemented in the [**Sharix TV App**](https://sharix.tech) which runs across all devices. These include iOS, iPadOS, tvOS, macOS and Airplay.
+The Sharix API has been fully implemented in the [**Sharix TV App**](https://sharix.tech) which runs across all devices. These include iOS, iPadOS, tvOS, macOS and AirPlay.
 
 # Legal Disclaimer
 The Sharix API and the distribution of the Sharix API is not illegal and does not violate DMCA laws. However, use of the Sharix API may be illegal in your region. Check your local laws and regulations regarding the playback of potentially copyrighted content. The operators will not tolerate the Sharix API being used for anything illegal in any state, region, country or planet. Please use the Sharix API at your own risk.
 
 # Status 
-The status of the Sharix API services can be checked at [**status.sharix.tech**](https://status.sharix.tech).
+The status of the Sharix services can be checked at [**status.sharix.tech**](https://status.sharix.tech).
 
 # Questions & Bugs 
 If you encounter problems using the Sharix API or the documentation is incomplete or incorrect, please create a post on the [**GitHub Discussion**](https://github.com/boostvolt/sharix_tv_api/discussions) section.
 
 # Authorization
-**Currently not available.**
+To be able to use the Sharix API without limitations, you will need to [**create a new API access token**](https://api.sharix.tech).
 
-To be able to use the Sharix API without limitations., you will need to [**create a new API access token**](https://api.sharix.tech).
+Due to high demand, no new `access_token` can be requested at this time. As soon as the Sharix server structures have been adapted accordingly, this will be possible again.
 
 # API URL
 The API should always be accessed over SSL.
@@ -198,12 +198,11 @@ Returns movies of the selected page.
 ## Sort [/movies/{page}{?sort}]
 Movies can be sorted according to the following criteria:
 - Trending `trending`
-- Popularity `popular`
+- Released `released`
 - Last added `last added`
 - Top rated `rating`
 - Year of publication `year`
 - Name Z-A `name`
-- Last updated `updated`
 
 ### Get movies by sort criteria [GET]
 Returns an array of movies that correspond to the selected sort criteria.
@@ -212,12 +211,11 @@ Returns an array of movies that correspond to the selected sort criteria.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
-              + `popular`
+              + `released`
               + `last added`
               + `rating`
               + `year`
               + `name`
-              + `updated`
 
   + Request (application/json)
 
@@ -389,14 +387,14 @@ Returns an array of movies that correspond to the selected language.
 
       + Attributes (array[Movie])
       
-## Multiple parameters [/movies/{page}{?sort,order,genre,keywords,locale}]
+## Multiple parameters [/movies/{page}{?sort,order,genre,keywords,locale,contentLocale}]
 Movies can be requested according to multiple parameters. The following parameters are available:
 - Page `{page}`
 - Sort `{sort}`
 - Order `{order}`
 - Genre `{genre}`
 - Search `{keywords}`
-- Language `{locale}`
+- Language `{locale}` `{contentLocale}`
 
 ### Get movies by multiple parameters [GET]
 Returns an array of movies that correspond to the parameters.
@@ -405,10 +403,11 @@ Returns an array of movies that correspond to the parameters.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
-              + `popular`
+              + `released`
               + `last added`
               + `rating`
               + `year`
+              + `name`
       + order (optional, integer, `-1`) ... Order the list of the content.
          + Values
               + `1`
@@ -433,6 +432,14 @@ Returns an array of movies that correspond to the parameters.
               + `western`
       + keywords (optional, string, `Star Wars`) ... Search based on keywords.
       + locale (optional, string, `en`) ... Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+      + contentLocale (optional, string, `en`) ... Filter on a language.
          + Values
               + `en`
               + `es`
@@ -542,7 +549,7 @@ Returns shows of the selected page.
 ## Sort [/shows/{page}{?sort}]
 Shows can be sorted according to the following criteria:
 - Trending `trending`
-- Popularity `popular`
+- Released `released`
 - Last added `last added`
 - Top rated `rating`
 - Year of publication `year`
@@ -556,7 +563,7 @@ Returns an array of shows that correspond to the selected sort criteria.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
-              + `popular`
+              + `released`
               + `last added`
               + `rating`
               + `year`
@@ -733,14 +740,14 @@ Returns an array of shows that correspond to the selected language.
 
       + Attributes (array[Show])
       
-## Multiple parameters [/shows/{page}{?sort,order,genre,keywords,locale}]
+## Multiple parameters [/shows/{page}{?sort,order,genre,keywords,locale,contentLocale}]
 Shows can be requested according to multiple parameters. The following parameters are available:
 - Page `{page}`
 - Sort `{sort}`
 - Order `{order}`
 - Genre `{genre}`
 - Search `{keywords}`
-- Language `{locale}`
+- Language `{locale}` `{contentLocale}`
 
 ### Get shows by multiple parameters [GET]
 Returns an array of shows that correspond to the parameters.
@@ -749,10 +756,12 @@ Returns an array of shows that correspond to the parameters.
       + sort (optional, string, `trending`) ... Sort the list of content.
         + Values
               + `trending`
-              + `popular`
+              + `released`
               + `last added`
               + `rating`
               + `year`
+              + `name`
+              + `updated`
       + order (optional, integer, `-1`) ... Order the list of the content.
          + Values
               + `1`
@@ -777,6 +786,14 @@ Returns an array of shows that correspond to the parameters.
               + `western`
       + keywords (optional, string, `Star Wars`) ... Search based on keywords.
       + locale (optional, string, `en`) ... Filter on a language.
+         + Values
+              + `en`
+              + `es`
+              + `fr`
+              + `de`
+              + `nl`
+              + `ru`
+      + contentLocale (optional, string, `en`) ... Filter on a language.
          + Values
               + `en`
               + `es`
